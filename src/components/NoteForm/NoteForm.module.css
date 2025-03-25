@@ -1,0 +1,15 @@
+/* 
+export default function NoteForm() {
+
+
+  const handleSubmit = (event) => {
+
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="text" />
+      <button type="submit">Add note</button>
+    </form>
+  );
+} */

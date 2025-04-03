@@ -1,0 +1,22 @@
+#root {
+  max-width: 1280px;
+  width: 80%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+.wrapper {
+  width: 80%; /* Или max-width */
+  max-width: 700px;
+  padding: 20px 32px;
+  border: 1px solid #2a2929;
+  box-shadow: 0px 10px 10px #8b8484;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 5px solid transparent;
+}
+body {
+  padding: 20px 10px;
+  display: block;
+  background: radial-gradient(#d1cece, #8c8b8b);
+}

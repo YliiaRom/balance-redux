@@ -1,55 +1,50 @@
 import { configureStore, createAction } from "@reduxjs/toolkit";
 
-const initialState = {
-  balance: {
-    values: 123,
-  },
-  locale: {
-    lang: "uk",
-  },
+import storage from "redux-persist/lib/storage";
+import localeReducer from "./locale";
+import notesSliceReducer from "./notesSlice";
+import balanceReducer from "./balanceSlice";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+
+//данные  для лс
+
+const persistConfig = {
+  //любое название ключа"
+  key: "balance",
+  storage,
+  //значение чего сберечь в ls?
+  whitelist: ["value"],
 };
 
-const rootReducer = (state = initialState, action) => {
-  console.log(state);
-  console.log(action);
-  switch (action.type) {
-    case "balance/deposit": {
-      return {
-        ...state,
-        balance: {
-          values: state.balance.values + action.payload,
-        },
-      };
-    }
-    case "balance/withdraw": {
-      return {
-        ...state,
-        balance: {
-          values: state.balance.values - action.payload,
-        },
-      };
-    }
-    case "locale/changeLang": {
-      return {
-        ...state,
-        locale: {
-          lang: action.payload,
-        },
-      };
-    }
-
-    default:
-      return state;
-  }
-};
+//для каждого отдельно передаём редюсер
+const persistedBalanceReducer = persistReducer(persistConfig, balanceReducer);
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    //замена  balance: balanceReducer,
+    balance: persistedBalanceReducer,
+    locale: localeReducer,
+    notes: notesSliceReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-export const deposit = createAction("balance/deposit");
-export const withdraw = createAction("balance/withdraw");
-export const changeLang = createAction("locale/changeLang");
+// Обязательно!!! сделать копию stor
+export const persistor = persistStore(store);
 
 // Один раз на додаток створити store та редюсер
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import "./App.css";
+import css from "./App.module.css";
 import NoteForm from "./components/NoteForm/NoteForm";
 import NoteList from "./components/NoteList/NoteList";
 import Balance from "./components/Balance/Balance";
@@ -11,7 +11,7 @@ function App() {
   const lang = useSelector((state) => state.locale.lang);
   return (
     <>
-      <div>
+      <div className={css.wrapper}>
         <h1 style={{ textDecoration: "underline" }}>
           State management with Redux
         </h1>
